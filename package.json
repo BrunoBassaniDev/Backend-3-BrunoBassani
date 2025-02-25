@@ -1,0 +1,19 @@
+{
+  "name": "proyecto-backend-3",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --no-warnings ./src/app.js",
+    "dev": "nodemon ./src/app.js"
+  },
+  "keywords": [],
+  "author": "Bruno Bassani",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^9.5.0",
+    "bcryptjs": "^3.0.2",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.1"
+  }
+}
