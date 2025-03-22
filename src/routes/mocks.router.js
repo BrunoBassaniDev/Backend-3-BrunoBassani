@@ -1,9 +1,11 @@
-import express from 'express';
-import { generateUsers, generatePets } from '../services/mockingService.js';
+import express from "express";
+import { generateUsers, generatePets } from "../services/mockingService.js";
+import User from "../models/user.js";
+import Pet from "../models/pet.js";
 
 const router = express.Router();
 
-router.get('/mockingusers', async (req, res) => {
+router.get("/mockingusers", async (req, res) => {
 const { count } = req.query;
 const numUsers = parseInt(count, 10) || 50;
 try {
@@ -14,9 +16,9 @@ try {
 }
 });
 
-router.get('/mockingpets', async (req, res) => {
+router.get("/mockingpets", async (req, res) => {
 const { count } = req.query;
-const numPets = parseInt(count, 10) || 50; 
+const numPets = parseInt(count, 10) || 50;
 try {
     const pets = generatePets(numPets);
     res.json(pets);
@@ -25,13 +27,20 @@ try {
 }
 });
 
-router.post('/generateData', async (req, res) => {
+router.post("/generateData", async (req, res) => {
 const { users, pets } = req.body;
 try {
     const generatedUsers = await generateUsers(users);
-    const generatedPets = generatePets(pets);
+    await User.insertMany(generatedUsers);
 
-    res.status(201).json({ message: 'Data generated successfully', users: generatedUsers, pets: generatedPets });
+    const generatedPets = generatePets(pets);
+    await Pet.insertMany(generatedPets);
+
+    res.status(201).json({
+    message: "Data generated successfully",
+    users: generatedUsers,
+    pets: generatedPets,
+    });
 } catch (error) {
     res.status(500).json({ error: error.message });
 }

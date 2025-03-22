@@ -7,7 +7,8 @@ for (let i = 0; i < numUsers; i++) {
     const email = faker.internet.email();
     const password = await bcrypt.hash('coder123', 10);
     const role = faker.helpers.arrayElement(['user', 'admin']);
-    users.push({ email, password, role });
+    const pets = [];
+    users.push({ email, password, role, pets });
 }
 return users;
 };
